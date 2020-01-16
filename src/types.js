@@ -425,6 +425,7 @@ export type Responders = {|
   onBeforeDragStart?: OnBeforeDragStartResponder,
   onDragStart?: OnDragStartResponder,
   onDragUpdate?: OnDragUpdateResponder,
+  onDragAbort?: () => void,
   // always required
   onDragEnd: OnDragEndResponder,
 |};

@@ -5,7 +5,6 @@ import rafSchedule from 'raf-schd';
 import { useMemo, useCallback } from 'use-memo-one';
 import memoizeOne from 'memoize-one';
 import { invariant } from '../../invariant';
-import checkForNestedScrollContainers from './check-for-nested-scroll-container';
 import * as dataAttr from '../data-attributes';
 import { origin } from '../../state/position';
 import getScroll from './get-scroll';
@@ -122,8 +121,8 @@ export default function useDroppablePublisher(args: Props) {
   const getDimensionAndWatchScroll = useCallback(
     (windowScroll: Position, options: ScrollOptions) => {
       // invariant(
-        // !whileDraggingRef.current,
-        // 'Cannot collect a droppable while a drag is occurring',
+      // !whileDraggingRef.current,
+      // 'Cannot collect a droppable while a drais occurring',
       // );
       const previous: Props = previousRef.current;
       const ref: ?HTMLElement = previous.getDroppableRef();
@@ -164,10 +163,6 @@ export default function useDroppablePublisher(args: Props) {
           onClosestScroll,
           getListenerOptions(dragging.scrollOptions),
         );
-        // print a debug warning if using an unsupported nested scroll container setup
-        if (process.env.NODE_ENV !== 'production') {
-          checkForNestedScrollContainers(scrollable);
-        }
       }
 
       return dimension;

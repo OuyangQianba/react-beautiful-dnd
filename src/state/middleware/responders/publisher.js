@@ -234,6 +234,10 @@ export default (getResponders: () => Responders, announce: Announce) => {
   const abort = () => {
     // aborting can happen defensively
     if (!dragging) {
+      const onAbort = getResponders().onDragAbort;
+      if (onAbort) {
+        onAbort();
+      }
       return;
     }
 
