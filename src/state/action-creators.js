@@ -9,6 +9,7 @@ import type {
   Viewport,
   DimensionMap,
   DropReason,
+  DroppableDimensionMap,
   Published,
 } from '../types';
 
@@ -302,6 +303,18 @@ export const dropAnimationFinished = (): DropAnimationFinishedAction => ({
   payload: null,
 });
 
+export type UpdateDroppableDimentions = {|
+  type: 'UPDATE_DROPPABLE_DIMENTIONS',
+  payload: DroppableDimensionMap,
+|};
+
+export const updateDroppableDimentions = (
+  args: DroppableDimensionMap,
+): UpdateDroppableDimentions => ({
+  type: 'UPDATE_DROPPABLE_DIMENTIONS',
+  payload: args,
+});
+
 export type Action =
   | BeforeInitialCaptureAction
   | LiftAction
@@ -325,4 +338,5 @@ export type Action =
   | DropAnimateAction
   | DropAnimationFinishedAction
   | DropCompleteAction
+  | UpdateDroppableDimentions
   | FlushAction;

@@ -121,10 +121,10 @@ export default function useDroppablePublisher(args: Props) {
 
   const getDimensionAndWatchScroll = useCallback(
     (windowScroll: Position, options: ScrollOptions) => {
-      invariant(
-        !whileDraggingRef.current,
-        'Cannot collect a droppable while a drag is occurring',
-      );
+      // invariant(
+        // !whileDraggingRef.current,
+        // 'Cannot collect a droppable while a drag is occurring',
+      // );
       const previous: Props = previousRef.current;
       const ref: ?HTMLElement = previous.getDroppableRef();
       invariant(ref, 'Cannot collect without a droppable ref');

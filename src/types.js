@@ -264,13 +264,16 @@ export type DragUpdate = {|
   destination: ?DraggableLocation,
   // populated when a draggable is dragging over another in combine mode
   combine: ?Combine,
+  requestUpdateDropableDimensions: () => void,
 |};
 
 export type DropReason = 'DROP' | 'CANCEL';
 
 // published when a drag finishes
 export type DropResult = {|
-  ...DragUpdate,
+  ...DragStart,
+  destination: ?DraggableLocation,
+  combine: ?Combine,
   reason: DropReason,
 |};
 

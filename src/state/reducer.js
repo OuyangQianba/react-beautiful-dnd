@@ -453,5 +453,22 @@ export default (state: State = idle, action: Action): State => {
     };
   }
 
+  if (action.type === 'UPDATE_DROPPABLE_DIMENTIONS') {
+    invariant(
+      state.phase === 'DRAGGING',
+      `${action.type} received while not in DRAGGING phase`,
+    );
+    if (state.dimensions) {
+      const ns: DraggingState = {
+        ...state,
+        dimensions: {
+          ...state.dimensions,
+          droppables: action.payload,
+        },
+      };
+      return ns;
+    }
+  }
+
   return state;
 };

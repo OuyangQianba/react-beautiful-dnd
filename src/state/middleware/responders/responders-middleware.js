@@ -1,9 +1,12 @@
 // @flow
 import getPublisher from './publisher';
+import { updateDroppableDimentions } from '../../action-creators';
+import type { DimensionMarshal } from '../../dimension-marshal/dimension-marshal-types';
 import type {
   State,
   DropResult,
   Responders,
+  LiftRequest,
   Critical,
   Announce,
 } from '../../../types';
@@ -17,6 +20,7 @@ import type {
 export default (
   getResponders: () => Responders,
   announce: Announce,
+  marshal: DimensionMarshal,
 ): Middleware => {
   const publisher = getPublisher(
     (getResponders: () => Responders),
@@ -69,7 +73,18 @@ export default (
 
     const state: State = store.getState();
     if (state.phase === 'DRAGGING') {
-      publisher.update(state.critical, state.impact);
+      publisher.update(state.critical, state.impact, () => {
+        const scrollOptions = {
+          shouldPublishImmediately: state.movementMode === 'SNAP',
+        };
+        const request: LiftRequest = {
+          draggableId: state.critical.draggable.id,
+          scrollOptions,
+        };
+        next(
+          updateDroppableDimentions(marshal.getDroppableDimensions(request)),
+        );
+      });
     }
   };
 };

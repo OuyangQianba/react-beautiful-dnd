@@ -1,6 +1,8 @@
 // @flow
 import { type Position } from 'css-box-model';
 import { invariant } from '../../invariant';
+import { toDroppableMap } from '../dimension-structures';
+import getViewport from '../../view/window/get-viewport';
 import type {
   DimensionMarshal,
   Callbacks,
@@ -23,6 +25,7 @@ import type {
   DroppableDescriptor,
   LiftRequest,
   Critical,
+  DroppableDimension,
   DraggableDescriptor,
 } from '../../types';
 import { warning } from '../../dev-warning';
@@ -202,6 +205,28 @@ export default (registry: Registry, callbacks: Callbacks) => {
     });
   };
 
+  const getDroppableDimensions = (request: LiftRequest) => {
+    const entry: DraggableEntry = registry.draggable.getById(
+      request.draggableId,
+    );
+    const home: DroppableEntry = registry.droppable.getById(
+      entry.descriptor.droppableId,
+    );
+
+    const viewport = getViewport();
+    const windowScroll: Position = viewport.scroll.current;
+    return toDroppableMap(
+      registry.droppable
+        .getAllByType(home.descriptor.type)
+        .map((en: DroppableEntry): DroppableDimension =>
+          en.callbacks.getDimensionAndWatchScroll(
+            windowScroll,
+            request.scrollOptions,
+          ),
+        ),
+    );
+  };
+
   const marshal: DimensionMarshal = {
     // Droppable changes
     updateDroppableIsEnabled,
@@ -212,6 +237,7 @@ export default (registry: Registry, callbacks: Callbacks) => {
     // Entry
     startPublishing,
     stopPublishing,
+    getDroppableDimensions,
   };
 
   return marshal;

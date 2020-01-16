@@ -145,7 +145,11 @@ export default (getResponders: () => Responders, announce: Announce) => {
   };
 
   // Passing in the critical location again as it can change during a drag
-  const update = (critical: Critical, impact: DragImpact) => {
+  const update = (
+    critical: Critical,
+    impact: DragImpact,
+    requestUpdateDropableDimensions: () => void,
+  ) => {
     const location: ?DraggableLocation = tryGetDestination(impact);
     const combine: ?Combine = tryGetCombine(impact);
 
@@ -188,6 +192,7 @@ export default (getResponders: () => Responders, announce: Announce) => {
       ...getDragStart(critical, dragging.mode),
       combine,
       destination: location,
+      requestUpdateDropableDimensions,
     };
 
     asyncMarshal.add(() => {

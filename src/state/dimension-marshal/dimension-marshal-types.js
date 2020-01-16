@@ -9,6 +9,7 @@ import type {
   DroppableId,
   Critical,
   DimensionMap,
+  DroppableDimensionMap,
   LiftRequest,
   Published,
   Viewport,
@@ -33,6 +34,7 @@ export type DimensionMarshal = {|
   // Entry
   startPublishing: (request: LiftRequest) => StartPublishingResult,
   stopPublishing: () => void,
+  getDroppableDimensions: (request: LiftRequest) => DroppableDimensionMap,
 |};
 
 export type Callbacks = {|

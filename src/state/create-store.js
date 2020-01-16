@@ -89,7 +89,7 @@ export default ({
         scrollListener,
         focus(focusMarshal),
         // Fire responders for consumers (after update to store)
-        responders(getResponders, announce),
+        responders(getResponders, announce, dimensionMarshal),
       ),
     ),
   );
